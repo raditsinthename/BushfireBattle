@@ -1,0 +1,30 @@
+extends layout
+
+block content
+	#content_area
+		if user
+			h1 Post a Comment
+			br
+			form(name="comment", action="/comment", method="post")
+				div.input
+					span.label 
+					textarea(name="description", cols="90", rows="10", style="border-style: groove; left:100px; position: relative;")
+				div.actions
+					input(type="submit", value="Post", style="left:100px; position: relative; padding: 10px; padding-left: 20px; padding-right: 20px; text-size: 20px;")
+		else
+			h3 Please login to post a comment
+		
+		br
+		br
+		table(cellpadding='10px', cellspacing='5', style="width: 1000px;")
+			tr
+				th
+					h1(style="text-align:left;") Comments
+			each comment in comments
+				tr
+					td(style="border-top-style: groove; border-right-style: none; border-bottom-style: none; border-left-style: none; font-weight: bold;") Posted by 
+						a(href = "/login/profile?u=#{comment.user}") #{comment.user}
+						|  at #{comment.time}
+						br
+						br
+						p(style="font-weight:normal;") #{comment.message}

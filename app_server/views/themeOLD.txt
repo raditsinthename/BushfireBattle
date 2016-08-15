@@ -1,0 +1,7 @@
+extends layout
+
+block content
+	#content_area(style='left:90px; top:120px;')
+		h2 The Theme of FireBreak	
+		p As you may have guessed, the theme of the game is firefighting. I intentionally made the game quite difficult in an attempt to show the player
+			how difficult a task firefighting actually is.

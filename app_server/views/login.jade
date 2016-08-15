@@ -1,0 +1,38 @@
+extends layout
+
+block content
+	#content_area
+		script(src="/javascripts/password.js")
+		h3 Login
+		if message
+			if message.indexOf("Incorrect") > -1
+				h3(style="color:red;") #{message}
+		#login
+			form(action='/login' method ="post")
+				label(for='username') Username
+				input(type='text', name='username')
+				br
+				label(for='password') Password
+				input(type='password', name='password')
+				br
+				input(type='submit', value='Submit')
+			br
+			br
+			h3 Or..
+
+		h3 Register new user
+		if message
+			if message.indexOf("exist") > -1
+				h3(style="color:red;") #{message}
+		#register
+			form(action='/login/signup' method="post")
+				label(for='username') Username
+				input(type='text', name='username', required, maxlength="15")
+				br
+				label(for='password') Password
+				input(id = 'password', type='password', name='password', required, maxlength="15")
+				br
+				label(for='confirmPassword') Confirm Password
+				input(id = 'confirmPassword', type='password', name='confirmPassword', required, maxlength="15", onchange="validatePassword()")
+				br
+				input(type='submit', value='Submit', onclick="validatePassword()")

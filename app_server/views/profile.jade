@@ -1,0 +1,98 @@
+extends layout
+
+block content
+	script(src="/javascripts/userEdit.js")
+	script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js")
+	#user_edit(style="visibility:hidden;")
+		h2(style= "margin-left: 20px;") Edit your profile:
+		p Select a new Avatar
+		ul
+			li 
+				img(src="/images/avatars/fire.png", onclick="updateA('/images/avatars/fire.png')")
+			li 
+				img(src="/images/avatars/extinguisher.png", onclick="updateA('/images/avatars/extinguisher.png')")
+			li 
+				img(src="/images/avatars/fireman.png", onclick="updateA('/images/avatars/fireman.png')")
+			li 
+				img(src="/images/avatars/hydrant.png", onclick="updateA('/images/avatars/hydrant.png')")
+			li 
+				img(src="/images/avatars/ladder.png", onclick="updateA('/images/avatars/ladder.png')")
+		p Select a new profile colour
+		br
+		ul
+			li(class="color", id="red", style="background:red;height:30px;width:20px;", onclick="updateC('red')")
+			li(class="color", id="blue", style="background:blue;height:30px;width:20px;", onclick="updateC('blue')")
+			li(class="color", id="cyan", style="background:cyan;height:30px;width:20px;", onclick="updateC('cyan')") 
+			li(class="color", id="green", style="background:green;height:30px;width:20px;", onclick="updateC('green')") 
+			li(class="color", id="yellow", style="background:yellow;height:30px;width:20px;", onclick="updateC('yellow')") 
+			li(class="color", id="orange", style="background:orange;height:30px;width:20px;", onclick="updateC('orange')") 
+			li(class="color", id="pink", style="background:pink;height:30px;width:20px;", onclick="updateC('pink')") 
+			li(class="color", id="brown", style="background:brown;height:30px;width:20px;", onclick="updateC('brown')") 
+			li(class="color", id="black", style="background:black;height:30px;width:20px;", onclick="updateC('black')") 
+		a(href="javascript:window.location.reload()", class="button", style="position:relative; top:20px; left:20px;") Save Changes
+	#content_area
+		if user
+			if user.username === disp_user.username
+				#edit_profile_button
+					a(onclick="edit()", class="button") Edit Profile
+			#profile_image
+				img(src= '#{disp_user.avatarURL}', style="position: relative; left: 3px;")
+			#profile_details
+				h1(style='color:#{disp_user.color};')
+					| #{disp_user.username}
+				br
+				h3 Achievements:
+				h4 (Hover over each for more details)
+				tr
+					td
+						img(src= '#{disp_user.achievements[0].picture}', title="#{disp_user.achievements[0].name}")
+					td 
+						img(src= '#{disp_user.achievements[1].picture}', title="#{disp_user.achievements[1].name}")
+					td 
+						img(src= '#{disp_user.achievements[2].picture}', title="#{disp_user.achievements[2].name}")		
+					td 
+						img(src= '#{disp_user.achievements[3].picture}', title="#{disp_user.achievements[3].name}") 							
+
+			#stats_table
+				table(cellpadding='10px', cellspacing='10px')
+					tr
+						th
+							h4 Total Fires Extinguished
+						th
+							h4 Total Wins
+						th
+							h4 Total Losses
+					tr
+						td(align='middle')
+							p
+							| #{disp_user.fires}
+						td(align='middle')
+							p 
+							| #{disp_user.wins}
+						td(align='middle')
+							p 
+							| #{disp_user.losses}
+
+			#profile_comments
+				table(cellpadding='10px', cellspacing='5')
+					tr
+						th
+							h3 Comments by #{disp_user.username}
+					each comment in comments
+						tr
+							td(style="border-top-style: groove; border-right-style: none; border-bottom-style: none; border-left-style: none; font-weight: bold;", border="2") Posted by 
+								a(href = "/login/profile?u=#{comment.user}") #{comment.user}
+								|  at #{comment.time}
+								br
+								br
+								p(style="font-weight:normal;") #{comment.message}
+
+		else
+			h1 Login
+			#users
+				form(action='/login' method ="post")
+					label(for='username') Username
+					input(id = 'username' , type='text', name='username')
+					label(for='password') Password
+					input(id = 'password' , type='text', name='password')
+					input(type='submit', value='Submit')

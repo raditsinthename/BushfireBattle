@@ -1,0 +1,91 @@
+doctype html
+html(lang = 'en')
+	head
+		meta(charset='utf-8')
+		title= title
+		link(rel='stylesheet', href='/stylesheets/style.css')
+		script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js')
+		script(src="/javascripts/chat.js")
+		meta(name='viewport', content='width=device-width, initial-scale=1')
+		
+		script(src="/socket.io/socket.io.js")
+		script(src="http://code.jquery.com/jquery-1.11.1.js")
+		script.
+			console.log('loading script');
+			var socket = io();
+			console.log('connected');
+			
+			function send(cUsername){
+				console.log('send');
+				var message = document.getElementById('message');
+				socket.emit('message',{user:cUsername.username,msg:message.value,color:cUsername.color});
+				message.value='';
+			};
+				
+			socket.on('message', function(data){
+				var messages = document.getElementById('messages');
+				if (messages.childNodes.length > 29) {
+					messages.removeChild(messages.childNodes[0]);
+				}
+				var newText = document.createElement('li');
+				var newTextUser = document.createElement('span');
+				newTextUser.innerHTML = data.user+": ";
+				newTextUser.style = "color: " + data.color;
+				newTextUser = newText.appendChild(newTextUser);
+				newText.innerHTML = newText.innerHTML+data.msg;
+				messages.appendChild(newText);
+				messages.scrollTop = messages.scrollHeight;
+				
+			});
+	body
+		#header_container
+			#header Bushfire Battle
+		#nav_container
+			ul
+				li
+					a(href = "/") Home
+				li
+					a(href = "/game/") Play!
+				li
+					a(href = "/rules/") Rules
+				li
+					a(href = "/comments/") Comments
+				li
+					a(href = "/theme/") Theme
+				li
+					a(href = "/contact/") Contact Information
+				li
+					a(href = "/architecture/") Architecture
+				li(style='float: right;')
+					if user
+						a(href ="/login/profile?u=#{user.username}") #{user.username}	
+					else
+						a(href ="/login") Login
+				if user
+					li(style='float: right;')
+						a(href ="/login/logout") Logout
+		#container
+			block content
+		
+		#chat_container(style="border:1px;border-style:solid; visibility:hidden;")
+			#chatnav
+				ul(style="list-style-type:none;margin:0px;padding-left:5px;padding-top:4px;")
+					li(style="font-weight:bold;color:#ffffff;", onclick="closeChat()") Chat
+			#chatwindow
+					ul(id="messages")
+						li Welcome
+		
+					form(action="", id='msgForm', onSubmit='return false;')
+						input(id="message" autocomplete="off" placeholder="Type your message..." style="border-style: groove;")
+						if user
+							button(id="sendmsg", type = 'button', onClick='send({username:"#{user.username}",color:"#{user.color}"});') Send
+						else
+							button(id="sendmsg", type = 'button', onClick='send({username:"Guest",color:"Black"});') Send
+		#chat_button
+			a(onclick="getChat()", class="button", style="border-style: solid; border-color: black; border-width: 1px; bottom: 5px; right: 8px; position: fixed; background-color: #538762; width: 263px; height: 30px; padding-left: 5px; padding-top: 5px;  text-align: left; font-weight: bold;") Open Chat
+		#footer_container					
+			#footer(float='left')
+				script.
+					var x = document.lastModified;
+					var node = document.getElementById("footer");
+					node.appendChild(document.createTextNode("Created by Robert Gross and Bradley Morgan. Last modified " + x));

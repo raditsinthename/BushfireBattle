@@ -1,0 +1,28 @@
+extends layout
+
+block content
+	#content_area(style = "overflow-x: hidden;")
+		h1 Architecture and Design
+		br
+		h2 Information Design
+		p	Despite the seemingly basic presentation, there are a number of data that are stored relating to user comments and gameplay statistics. 
+			| We settled on a design that allows users to access this data in an intuitive way that restricts the presentation of any unnecessary or irrelevant data, resulting 
+			| in a clean but functionally deep website.
+		p	For example, telling the user that the number of helicopters they have deployed within the game is being tracked without context is meaningless and clutters the overall experience.
+			| Instead, we have an achievement that unlocks once a number of helicopters have been deployed, informing users of the stat-tracking and providing a long-term goal they may wish to follow.
+		br
+		h2 Usability
+		p	Due to the relatively small number of pages, we are able to use a design that allows users to access any area of the website within one click (two clicks if they are looking for a specific user). 
+			p This ensures a smooth and easy navigation for all users that is not hampered by any unnecessary road blocks.
+		br
+		h2 Visual Design
+		p To ensure the whole website had a consistent and professional feeling we 
+			| limited ourselves to using a single font and a select few colours from the palette 
+			| of the game we have based the site around.
+		p This, in addition to using a consistent css template and default jade layout for 
+			| each page ensures that the user will have a cohesive experience as they make their way around the site.
+		h2 Design issues encountered
+		p Many of the issues encountered involved the teething issues experienced by any new users of NPM and its packages. 
+		p The only thing we were unable to tighten up was the selectors on the profile edit box, we would have liked to have some sort of indicators telling the user the current
+			| display picture and colour they had chosen, but the usual classes of .active and .selected were not working for us. Functionally the selector still works, but it feels a bit 
+			| strange to use given the lack of user feedback.

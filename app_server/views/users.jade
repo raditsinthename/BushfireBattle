@@ -1,0 +1,27 @@
+extends layout
+
+block content
+ h1 Users
+
+ #users
+ table
+  tr
+   th Username
+   th Wins
+   th Losses
+   th Fires
+   th Helis
+  each user in users
+   tr
+    td #{user.username}
+    td #{user.wins}
+    td #{user.losses}
+    td #{user.fires}
+    td #{user.helis}
+
+  form(action ='/users', method='post')
+   label(for='username') Username
+   input(id = 'username' , type='text', name='username')
+   label(for='email') Email
+   input(id ='email', type ='text', name='email')
+   input(type ='submit', value='Submit')

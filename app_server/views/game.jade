@@ -1,0 +1,33 @@
+extends layout
+
+script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js")
+
+block content	
+	#content_area
+		if user.color == 'pink' && user.avatarURL == '/images/avatars/extinguisher.png'
+			canvas#myCanvas(width='600', height='700') egg
+		else
+			canvas#myCanvas(width='600', height='700') normal
+		#leaderboard_container
+			#leaderboard
+				table
+					caption(style="font-size: 30px; top:0px; position:relative; padding-bottom:10px;") Leaderboard 
+					tr
+						th Position
+						th Username
+						th Total Fires Extinguished
+					each leader, index in leaders
+						if index < 10 && leader.username != user.username
+							tr
+								td= index + 1
+								td 
+									a(href = "/login/profile?u=#{leader.username}") #{leader.username}
+								td #{leader.fires}
+						if leader.username == user.username
+							tr#yourPos
+								td= index + 1
+								td 
+									a(href = "/login/profile?u=#{user.username}") #{user.username}
+								td #{user.fires}
+								
+		script(src='/javascripts/game.js')
